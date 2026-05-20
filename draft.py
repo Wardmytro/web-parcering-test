@@ -140,8 +140,8 @@ print(f"Ціна товару: {price_element.text}")
 #- Знаходить потрібний елемент із ціною (soup.find()).
 
 try:
-    import requests # type: ignore[reportMissingModuleSource]
-    from bs4 import BeautifulSoup # type: ignore[reportMissingModuleSource]
+    import requests
+    from bs4 import BeautifulSoup
 except ImportError:
     requests = None
     BeautifulSoup = None
