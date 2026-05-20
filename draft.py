@@ -13,10 +13,8 @@ print(income, tax_percent)
 #Як би ви написали рядок коду, щоб створити нову змінну net_profit (чистий прибуток) і розрахувати її значення за допомогою ваших математичних операцій та вже існуючих змінних income і tax_percent?
 
 
-def calculate_net_profit(income, tax_percent):
-    net_profit = income - (income * tax_percent)
-    corporate_net_profit = net_profit * 0.8
-    return corporate_net_profit
+from net_profit import calculate_net_profit
+
 
 income = 1000
 tax_percent = 0.05
