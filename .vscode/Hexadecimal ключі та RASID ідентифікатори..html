@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор Ключів та RASID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Tailwind slate-900 */
+        }
+        /* Custom scrollbar for the output area */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-2xl w-full bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-slate-900 p-6 border-b border-slate-700">
+            <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                </svg>
+                Генератор безпечних ключів
+            </h1>
+            <p class="text-slate-400 mt-2 text-sm">Створюйте криптографічно надійні Hexadecimal ключі та RASID ідентифікатори.</p>
+        </div>
+
+        <div class="p-6 space-y-8">
+            
+            <!-- Hexadecimal Section -->
+            <div class="bg-slate-700/30 p-5 rounded-xl border border-slate-700/50">
+                <h2 class="text-lg font-semibold text-white mb-4">Hexadecimal Key</h2>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                        <label for="hex_size" class="block text-sm font-medium text-slate-400 mb-1">Довжина (символів)</label>
+                        <input type="number" id="hex_size" min="1" max="4096" value="64" 
+                            class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="generateHexadecimalKey('hex_size')" 
+                            class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors shadow-lg shadow-indigo-900/20 flex items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M11.3 1.046A12.014 12.014 0 0010 1c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.84 13.626l-3.3-3.3a1 1 0 011.414-1.414l1.886 1.886 4.886-4.886a1 1 0 111.414 1.414l-5.6 5.6a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Згенерувати Hex
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RASID Section -->
+            <div class="bg-slate-700/30 p-5 rounded-xl border border-slate-700/50">
+                <h2 class="text-lg font-semibold text-white mb-4">RASID (Random Alphanumeric Secure ID)</h2>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                        <label for="rasid_size" class="block text-sm font-medium text-slate-400 mb-1">Довжина (символів)</label>
+                        <input type="number" id="rasid_size" min="1" max="4096" value="32" 
+                            class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="generateRASID('rasid_size')" 
+                            class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M11.3 1.046A12.014 12.014 0 0010 1c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.84 13.626l-3.3-3.3a1 1 0 011.414-1.414l1.886 1.886 4.886-4.886a1 1 0 111.414 1.414l-5.6 5.6a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Згенерувати RASID
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Display Container (Hidden by default) -->
+            <div id="result-container" class="hidden mt-6 bg-slate-900 p-5 rounded-xl border border-slate-600 relative group">
+                <div class="flex justify-between items-center mb-3">
+                    <span id="result-title" class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Результат</span>
+                    <button onclick="copyToClipboard()" id="copy-btn" class="text-slate-400 hover:text-white flex items-center gap-1 text-sm bg-slate-800 hover:bg-slate-700 py-1 px-3 rounded transition-colors border border-slate-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        Копіювати
+                    </button>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar pb-2">
+                    <code id="output-text" class="text-emerald-400 font-mono text-lg whitespace-nowrap break-all"></code>
+                </div>
+                
+                <!-- Feedback Toast -->
+                <div id="copy-toast" class="absolute top-4 right-1/2 transform translate-x-1/2 bg-white text-slate-900 px-4 py-2 rounded-lg font-medium text-sm shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none">
+                    Скопійовано!
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Отримує значення з поля вводу з урахуванням обмежень min/max
+         */
+        function getInputValue(input_id) {
+            const element = document.getElementById(input_id);
+            let value = parseInt(element.value);
+            
+            // Захист від NaN (якщо поле порожнє)
+            if (isNaN(value)) {
+                value = parseInt(element.getAttribute('min')) || 1;
+            }
+
+            const max = parseInt(element.getAttribute('max'));
+            if (!isNaN(max) && value > max) {
+                element.value = max; // Оновлюємо UI
+                return max;
+            }
+
+            const min = parseInt(element.getAttribute('min'));
+            if (!isNaN(min) && value < min) {
+                element.value = min; // Оновлюємо UI
+                return min;
+            }
+
+            return value;
+        }
+
+        /**
+         * Отримує випадковий елемент масиву використовуючи КРИПТОГРАФІЧНО БЕЗПЕЧНИЙ генератор.
+         * ЗАМІНА: Math.random() на window.crypto.getRandomValues()
+         */
+        function getSecureRandElement(elements) {
+            // Створюємо масив з одного 32-бітного беззнакового цілого числа
+            const randomBuffer = new Uint32Array(1);
+            // Заповнюємо його випадковим значенням від ОС
+            window.crypto.getRandomValues(randomBuffer);
+            
+            // Використовуємо залишок від ділення для вибору індексу
+            // Зверніть увагу: для ідеальної рівномірності при дуже специфічних розмірах масивів
+            // іноді потрібні складніші алгоритми, але для наших цілей цього достатньо і це 
+            // нескінченно краще за Math.random().
+            const randomIndex = randomBuffer[0] % elements.length;
+            
+            return elements[randomIndex];
+        }
+
+        /**
+         * Генерує рядок заданої довжини з доступних символів
+         */
+        function getRandHash(size, elements) {
+            let hash = '';
+            for (let i = 0; i < size; i++) {
+                hash += getSecureRandElement(elements);
+            }
+            return hash;
+        }
+
+        /**
+         * Відображає результат на екрані замість використання alert()
+         */
+        function displayResult(result, title) {
+            const container = document.getElementById('result-container');
+            const titleEl = document.getElementById('result-title');
+            const outputEl = document.getElementById('output-text');
+            
+            titleEl.innerText = title;
+            outputEl.innerText = result;
+            
+            // Показуємо контейнер з анімацією
+            container.classList.remove('hidden');
+            container.classList.add('animate-fade-in');
+        }
+
+        /**
+         * Генерує Hexadecimal ключ
+         */
+        function generateHexadecimalKey(size_input_id) {
+            const size = getInputValue(size_input_id);
+            // Використовуємо рядки для 0-9 замість чисел для узгодженості типів
+            const elements = ['A', 'B', 'C', 'D', 'E', 'F', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            
+            const result = getRandHash(size, elements);
+            displayResult(result, 'Згенерований Hexadecimal Key');
+        }
+
+        /**
+         * Генерує RASID ключ
+         */
+        function generateRASID(size_input_id) {
+            const size = getInputValue(size_input_id);
+            const elements = [
+                '-', '_', '$', '#', 'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 
+                'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 
+                'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 
+                'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+            ];
+            
+            const result = getRandHash(size, elements);
+            displayResult(result, 'Згенерований RASID');
+        }
+
+        /**
+         * Копіює результат в буфер обміну (кросбраузерний підхід)
+         */
+        function copyToClipboard() {
+            const textToCopy = document.getElementById('output-text').innerText;
+            
+            // Створюємо тимчасовий елемент textarea для копіювання (працює навіть в iFrame)
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            
+            // Уникаємо прокрутки сторінки донизу
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast();
+                }
+            } catch (err) {
+                console.error('Не вдалося скопіювати текст: ', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        /**
+         * Показує повідомлення "Скопійовано"
+         */
+        function showToast() {
+            const toast = document.getElementById('copy-toast');
+            toast.style.opacity = '1';
+            
+            // Змінюємо іконку на кнопці
+            const btn = document.getElementById('copy-btn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg> Готово`;
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
