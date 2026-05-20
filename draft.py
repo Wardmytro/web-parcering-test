@@ -12,9 +12,15 @@ print(income, tax_percent)
 
 #Як би ви написали рядок коду, щоб створити нову змінну net_profit (чистий прибуток) і розрахувати її значення за допомогою ваших математичних операцій та вже існуючих змінних income і tax_percent?
 
+
+def calculate_net_profit(income, tax_percent):
+    net_profit = income - (income * tax_percent)
+    corporate_net_profit = net_profit * 0.8
+    return corporate_net_profit
+
 income = 1000
 tax_percent = 0.05
-net_profit = income - (income * tax_percent)
+net_profit = calculate_net_profit(income, tax_percent)
 print(net_profit)
 
 #Зараз наша програма завжди рахує прибуток лише для числа 1000. Щоб зробити її по-справжньому корисною, вона має запитувати суму доходу безпосередньо у користувача.
@@ -37,7 +43,7 @@ income = float(input("Введіть ваш дохід: "))
 
 income = float(input("Введіть ваш дохід: "))
 tax_percent = 0.05
-net_profit = income - (income * tax_percent)
+net_profit = calculate_net_profit(income, tax_percent)
 print(net_profit)
 
 #Форматовані рядки зручно вставляти значення змінних прямо всередину тексту. Для цього перед початком тексту (перед лапками) ставиться літера f, а сама змінна береться у фігурні дужки {}.
@@ -95,7 +101,7 @@ for item in cart:
 #Теорія: Робота з HTTP-запитами, бібліотеки requests та BeautifulSoup, розуміння структури веб-сторінок.
 #Реальна практика: Створення парсера. Завдання: автоматично зібрати ціни на товари з сайту-конкурента та зберегти їх у зручному форматі (CSV або JSON).
 try:
-    import requests  
+    import requests
     from bs4 import BeautifulSoup
 except ImportError:
     requests = None
