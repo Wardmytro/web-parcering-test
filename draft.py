@@ -234,6 +234,24 @@ api_key = os.getenv("OPENAI_API_KEY")
 print(f"My API key is ready to use!")
 print(f"My API key is ready to use!")
 
+
+import asyncio, os
+from aiogram import Bot, Dispatcher, types
+from dotenv import load_dotenv
+load_dotenv("Keys.env")
+bot = Bot(token=os.getenv("BOT_TOKEN"))
+dp = Dispatcher()
+from aiogram.filters import Command
+@dp.message(Command("start"))
+async def command_start(message):
+    await message.answer("Привіт! Я ваш бот для замовлень. Що ви хочете замовити?")
+async def main():
+    await dp.start_polling(bot)
+if __name__ == "__main__":
+    asyncio.run(main())
+
+
+
 #Модуль 4: Зберігання та управління даними
 #Теорія: Реляційні бази даних (SQL), робота з SQLite та PostgreSQL, використання ORM (наприклад, SQLAlchemy) для взаємодії з базою через код.
 #Реальна практика: Інтеграція бази даних у нашого Telegram-бота, щоб зберігати історію замовлень, контактні дані клієнтів та генерувати автоматичні звіти про продажі за місяць.
