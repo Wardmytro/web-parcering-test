@@ -1,9 +1,8 @@
-BOT_TOKEN = "123456789:ABCdefGhIJKlmNoPQRstUVwxyZ"
-
-import asyncio, aiogram
-from py_compile import main
+import asyncio, aiogram, os
 from aiogram import Bot, Dispatcher, types
-bot = Bot(token=BOT_TOKEN)
+from dotenv import load_dotenv
+load_dotenv()
+bot = Bot(token=os.getenv("BOT_TOKEN"))
 dp = Dispatcher()
 from aiogram.filters import Command
 @dp.message(Command("start"))

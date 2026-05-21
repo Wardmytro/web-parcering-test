@@ -179,7 +179,7 @@ BOT_TOKEN = "123456789:ABCdefGhIJKlmNoPQRstUVwxyZ"
 import aiogram
 from aiogram import Bot, Dispatcher
 
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(token=os.getenv("BOT_TOKEN"))
 dp = Dispatcher()
 
 from aiogram.filters import Command
@@ -195,7 +195,23 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
+
+    import os
+    from dotenv import load_dotenv
+
+    # Завантажує всі змінні з файлу .env у системне середовище
+    # (Loads environment variables from the .env file)
+    load_dotenv() 
+
+
+    # Отримуємо значення за ключем (Retrieve the value using its key)
+    # Якщо ключа немає у файлі, поверне None
+    db_password = os.getenv("BOT_TOKEN") 
+    api_key = os.getenv("OPENAI_API_KEY")
+
+
+    print(f"My API key is ready to use!")
+    print(f"My API key is ready to use!")
 
 #Модуль 4: Зберігання та управління даними
 #Теорія: Реляційні бази даних (SQL), робота з SQLite та PostgreSQL, використання ORM (наприклад, SQLAlchemy) для взаємодії з базою через код.
