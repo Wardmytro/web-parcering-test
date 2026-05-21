@@ -169,18 +169,28 @@ print(f"Ціна товару: {price_element.text}")
 #Але перш ніж писати логіку, програмі потрібно якось зв'язатися з серверами Telegram і довести, що вона має право керувати саме вашим ботом. Для цього Telegram видає розробникам унікальний цифровий підпис (пароль), який називається API Token (він виглядає приблизно так: "123456789:ABCdefGhIJKlmNoPQRstUVwxyZ").
 #Спираючись на наші знання з першого модуля, як би ви написали рядок коду, щоб створити змінну з назвою BOT_TOKEN і зберегти в неї цей текстовий пароль-токен?
 
-BOT_TOKEN = "123456789:ABCdefGhIJKlmNoPQRstUVwxyZ"
+#Використовуючи .env файл для зберігання конфіденційних даних, ми можемо створити змінну BOT_TOKEN у файлі Keys.env і потім завантажити її в наш код за допомогою бібліотеки dotenv. Ось як це можна зробити:
+import os
+from dotenv import load_dotenv
+load_dotenv()  # Завантажує всі змінні з файлу .env у системне середовище
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # Отримуємо значення за ключем  BOT_TOKEN з файлу .env
+print(f"My BOT token is ready to use!")
+
 
 #Щоб підключитися до Telegram, бібліотека aiogram використовує два головні інструменти:
 #Bot — це сам "кур'єр", який має доступ до Telegram завдяки нашому токену і вміє відправляти повідомлення.
 #Dispatcher (диспетчер) — це "менеджер", який сортує всі вхідні повідомлення від користувачів і вирішує, що з ними робити.
 #Ось як виглядає їх базове налаштування:
 #Python:
-import aiogram
+
 from aiogram import Bot, Dispatcher
 
 bot = Bot(token=os.getenv("BOT_TOKEN"))
 dp = Dispatcher()
+
+#
+#
+#
 
 from aiogram.filters import Command
 
@@ -188,30 +198,41 @@ from aiogram.filters import Command
 async def command_start(message):
     await message.answer("Привіт! Я ваш бот для замовлень. Що ви хочете замовити?")
 
+#Ідеально! Ви щойно написали свій перший повноцінний обробник команд (хендлер). Тепер наш "менеджер" точно знає, що робити, коли бачить команду /start.
+#Але зараз наш код — це просто інструкція. Бот все ще "спить" і не перевіряє Telegram на наявність нових повідомлень. Нам потрібно його "увімкнути".
+#Процес, коли бот постійно запитує у серверів Telegram "чи є для мене нові повідомлення?", називається polling (опитування). У нашій бібліотеці для цього є команда start_polling(), якій ми маємо передати нашого бота.
+#Оскільки це безперервний процес зв'язку з інтернетом, він також є асинхронним (потребує слова await). Зазвичай розробники створюють головну функцію main() для запуску всієї програми.
+
+#Ось базовий каркас:
+
 import asyncio
 
 async def main():
     await dp.start_polling(bot)
 
+#Aбсолютно правильно! Ви чудово впоралися з передачею об'єкта bot у метод start_polling разом із ключовим словом await.
+#Оскільки функція main() є асинхронною (ми створили її через async def), ми не можемо просто викликати її як звичайну функцію, просто написавши main(). Нам потрібен спеціальний інструмент, який запустить цей процес.
+#Для цього використовується команда run() з вбудованої бібліотеки asyncio. Всередину дужок цієї команди ми маємо передати виклик нашої функції.
+#Крім того, у Python є стандартне правило хорошого тону — запускати головний процес лише тоді, коли файл відкривають безпосередньо. Для цього пишуть таку перевірку:
+
 if __name__ == "__main__":
     asyncio.run(main())
 
-    import os
-    from dotenv import load_dotenv
+import os
+from dotenv import load_dotenv
 
-    # Завантажує всі змінні з файлу .env у системне середовище
-    # (Loads environment variables from the .env file)
-    load_dotenv() 
+# Завантажує всі змінні з файлу .env у системне середовище
+# (Loads environment variables from the .env file)
 
+load_dotenv() 
 
-    # Отримуємо значення за ключем (Retrieve the value using its key)
-    # Якщо ключа немає у файлі, поверне None
-    db_password = os.getenv("BOT_TOKEN") 
-    api_key = os.getenv("OPENAI_API_KEY")
+# Отримуємо значення за ключем (Retrieve the value using its key)
+# Якщо ключа немає у файлі, поверне None
 
-
-    print(f"My API key is ready to use!")
-    print(f"My API key is ready to use!")
+db_password = os.getenv("BOT_TOKEN") 
+api_key = os.getenv("OPENAI_API_KEY")
+print(f"My API key is ready to use!")
+print(f"My API key is ready to use!")
 
 #Модуль 4: Зберігання та управління даними
 #Теорія: Реляційні бази даних (SQL), робота з SQLite та PostgreSQL, використання ORM (наприклад, SQLAlchemy) для взаємодії з базою через код.
