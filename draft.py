@@ -182,8 +182,20 @@ from aiogram import Bot, Dispatcher
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
+from aiogram.filters import Command
 
+@dp.message(Command("start"))
+async def command_start(message):
+    await message.answer("Привіт! Я ваш бот для замовлень. Що ви хочете замовити?")
 
+import asyncio
+
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+    
 
 #Модуль 4: Зберігання та управління даними
 #Теорія: Реляційні бази даних (SQL), робота з SQLite та PostgreSQL, використання ORM (наприклад, SQLAlchemy) для взаємодії з базою через код.
