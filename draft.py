@@ -13,7 +13,8 @@ print(income, tax_percent)
 #Як би ви написали рядок коду, щоб створити нову змінну net_profit (чистий прибуток) і розрахувати її значення за допомогою ваших математичних операцій та вже існуючих змінних income і tax_percent?
 
 
-from net_profit import calculate_net_profit
+def calculate_net_profit(income, tax_percent):
+    return income - (income * tax_percent)
 
 
 income = 1000
@@ -244,11 +245,32 @@ dp = Dispatcher()
 from aiogram.filters import Command
 @dp.message(Command("start"))
 async def command_start(message):
-    await message.answer("Привіт! Я ваш бот для замовлень. Що ви хочете замовити?")
+    await message.answer("Hello! I am your order bot. How much golds would you like to order?")
 async def main():
     await dp.start_polling(bot)
 if __name__ == "__main__":
     asyncio.run(main())
+
+#Додаємо меню вибору: кнопки для замовлення товарів, перегляду кошика та оформлення замовлення. Це можна зробити за допомогою ReplyKeyboardMarkup з бібліотеки aiogram.
+
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+
+# Створюємо кнопку
+btn_catalog = KeyboardButton(text="🛍 Catalog")
+btn_cart = KeyboardButton(text="🛒 Cart")
+btn_checkout = KeyboardButton(text="💳 Checkout")
+# Створюємо клавіатуру і кладемо кнопку у перший ряд (зверніть увагу на подвійні квадратні дужки [[...]])
+main_menu = ReplyKeyboardMarkup(
+    keyboard=[[btn_catalog,btn_cart,btn_checkout]],
+    resize_keyboard=True # Робить кнопки акуратними, а не на пів екрана телефону
+)
+
+
+
+
+
+
+
 
 
 

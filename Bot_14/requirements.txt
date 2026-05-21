@@ -1,0 +1,14 @@
+aiogram==3.28.2
+magic-filter==1.0.12
+aiohttp==3.13.5
+aiofiles==25.1.0
+requests==2.34.2
+beautifulsoup4==4.14.3
+soupsieve==2.8.3
+python-dotenv==1.2.2
+pydantic==2.13.4
+Pygments==2.20.0
+pytest==9.0.3
+tronpy==1.12.5
+web3==6.11.3
+solders==0.21.0
