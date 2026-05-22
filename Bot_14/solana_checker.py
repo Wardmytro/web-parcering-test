@@ -8,7 +8,7 @@ SOLANA_RPC = "https://api.mainnet-beta.solana.com"
 USDT_CONTRACT = "Es9vMFrzaCERmJfqV3E3wFsUjfxJosrv3NFxNYcXzLsUV5DJ"
 DECIMALS = 6
 
-async def check_solana_wallet_async(wallet_address, min_amount_usd, tolerance=0.01):
+async def check_solana_wallet(wallet_address, min_amount_usd, tolerance=0.01):
     """
     Check Solana wallet for USDT token transfers.
     Returns: List of transactions matching the amount
@@ -56,7 +56,7 @@ async def check_solana_wallet_async(wallet_address, min_amount_usd, tolerance=0.
         print(f"Solana async checker error: {e}")
         return []
 
-def check_solana_wallet(wallet_address, min_amount_usd, tolerance=0.01):
+def check_solana_wallet_sync(wallet_address, min_amount_usd, tolerance=0.01):
     """
     Synchronous Solana wallet checker via RPC.
     """

@@ -7,7 +7,7 @@ TON_CONFIG = BLOCKCHAIN_CONFIG["TON"]
 TON_RPC = "https://tonapi.io/v2"
 USDT_MASTER = "EQCxE6mUtQJKFnGfaROTKOt1lZbDgitvEAHxF7BtD5XRAAAB"
 
-async def check_ton_wallet_async(wallet_address, min_amount_usd, tolerance=0.01):
+async def check_ton_wallet(wallet_address, min_amount_usd, tolerance=0.01):
     """
     Check TON wallet for USDT transfers.
     Returns: List of transactions matching the amount
@@ -53,7 +53,7 @@ async def check_ton_wallet_async(wallet_address, min_amount_usd, tolerance=0.01)
         print(f"TON async checker error: {e}")
         return []
 
-def check_ton_wallet(wallet_address, min_amount_usd, tolerance=0.01):
+def check_ton_wallet_sync(wallet_address, min_amount_usd, tolerance=0.01):
     """
     Synchronous TON wallet checker.
     """

@@ -51,7 +51,11 @@ class PaymentMonitor:
             if not checker:
                 continue
 
-            transactions = await checker(wallet, expected_amount)
+            if asyncio.iscoroutinefunction(checker):
+                transactions = await checker(wallet, expected_amount)
+            else:
+                print(f"🚨 Знайдено винуватця! Функція для мережі {network} є синхронною (без 'async def').")
+                transactions = checker(wallet, expected_amount)
 
             for tx in transactions:
                 tx_hash = tx['tx_hash']
