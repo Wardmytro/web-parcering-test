@@ -53,7 +53,6 @@ async def select_gold(message: types.Message, state: FSMContext):
         await state.set_state(OrderForm.waiting_for_char_name)
     else:
         await message.answer("Please select a valid option from the menu", reply_markup=main_menu)
-        
 @dp.message(OrderForm.waiting_for_char_name)
 async def get_char_name(message: types.Message, state: FSMContext):
     await state.update_data(char_name=message.text)

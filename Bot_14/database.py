@@ -1,3 +1,4 @@
+import random
 import sqlite3
 from datetime import datetime
 from config import DB_PATH, WALLETS
@@ -40,7 +41,7 @@ def create_order(user_id, character_name, discord, gold_amount, price_usd, netwo
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
-    order_id = f"{user_id}_{int(datetime.now().timestamp())}"
+    order_id = str(random.randint(100000, 999999))
     wallet = WALLETS[network]
 
     c.execute('''INSERT INTO orders

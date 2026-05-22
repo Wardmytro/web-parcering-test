@@ -1,9 +1,10 @@
 from tronpy import Tron
 from tronpy.async_tron import AsyncTron
-from config import BLOCKCHAIN_CONFIG, WALLETS
+from config import BLOCKCHAIN_CONFIG, WALLETS, TRON_API_KEY
 import asyncio
+from tronpy.providers import HTTPProvider, AsyncHTTPProvider
 
-tron = Tron()
+tron = Tron(provider=HTTPProvider(api_key=TRON_API_KEY))
 
 TRON_CONFIG = BLOCKCHAIN_CONFIG["TRON"]
 USDT_CONTRACT = TRON_CONFIG["usdt_contract"]
@@ -15,7 +16,7 @@ async def check_tron_wallet(wallet_address, min_amount_usd, tolerance=0.01):
     Returns: List of transactions matching the amount (within tolerance)
     """
     try:
-        async_tron = AsyncTron()
+        async_tron = AsyncTron(provider=AsyncHTTPProvider(api_key=TRON_API_KEY))
 
         account_info = await async_tron.get_account(wallet_address)
         transactions = account_info.get('transactions', [])
@@ -44,6 +45,8 @@ async def check_tron_wallet(wallet_address, min_amount_usd, tolerance=0.01):
         return matches
 
     except Exception as e:
+        if "not found" in str(e).lower():
+            return []
         print(f"TRON checker error: {e}")
         return []
 
@@ -80,5 +83,7 @@ def check_tron_wallet_sync(wallet_address, min_amount_usd, tolerance=0.01):
         return matches
 
     except Exception as e:
+        if "not found" in str(e).lower():
+            return []
         print(f"TRON checker error: {e}")
         return []

@@ -1,7 +1,7 @@
 import asyncio
 from aiogram import Bot
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config import PAYMENT_MONITOR_INTERVAL, ADMIN_ID, PRICES, WALLETS
+from config import PAYMENT_MONITOR_INTERVAL, ADMIN_ID, TRON_API_KEY, PRICES, WALLETS
 from database import get_pending_orders, update_order_status, record_transaction, get_order_by_id
 from tron_checker import check_tron_wallet
 from ton_checker import check_ton_wallet
@@ -46,12 +46,12 @@ class PaymentMonitor:
             wallet = order['wallet_address']
             expected_amount = order['price_usd']
             order_id = order['order_id']
-
+            await asyncio.sleep(2)
             checker = CHECKER_FUNCTIONS.get(network)
             if not checker:
                 continue
 
-            transactions = checker(wallet, expected_amount)
+            transactions = await checker(wallet, expected_amount)
 
             for tx in transactions:
                 tx_hash = tx['tx_hash']

@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 load_dotenv("Keys.env")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+TRON_API_KEY = os.getenv("TRON_API_KEY")
 ADMIN_ID = int(os.getenv("ADMIN_ID", 0))
+
 
 PRICES = {
     "100": 30,
@@ -36,6 +38,6 @@ BLOCKCHAIN_CONFIG = {
     }
 }
 
-PAYMENT_MONITOR_INTERVAL = 45
+PAYMENT_MONITOR_INTERVAL = 60
 
 DB_PATH = "orders.db"
